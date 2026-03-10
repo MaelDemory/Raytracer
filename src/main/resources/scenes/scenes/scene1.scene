@@ -1,0 +1,388 @@
+size 7680 4320
+output scene1.png
+
+# Camera: dramatic angle from above-right
+camera 50 40 70 0 8 0 0 1 0 45
+
+ambient 0.01 0.01 0.015
+maxdepth 12
+
+# --- Multiple Lights for Complex Shadows ---
+# Main white overhead light
+point 0 80 0 0.3 0.3 0.3
+# Colored corner lights creating colorful shadows
+point 60 30 60 0.2 0.05 0.05
+point -60 30 60 0.05 0.2 0.05
+point 60 30 -60 0.05 0.05 0.2
+point -60 30 -60 0.2 0.2 0.05
+# Additional accent lights
+point 0 25 80 0.15 0.1 0.2
+point 80 25 0 0.2 0.15 0.1
+point 0 25 -80 0.1 0.2 0.15
+point -80 25 0 0.175 0.075 0.175
+# Directional rim lights
+directional -1 -0.3 -0.5 0.075 0.075 0.1
+directional 1 -0.3 0.5 0.1 0.075 0.075
+
+# --- Highly Reflective Floor ---
+ambient 0.02 0.02 0.02
+diffuse 0.1 0.1 0.15
+specular 0.95 0.95 0.98
+shininess 1500
+plane 0 -3 0 0 1 0
+
+# --- Mirror Walls ---
+# Back wall - perfect mirror
+ambient 0 0 0
+diffuse 0.05 0.05 0.05
+specular 0.98 0.98 0.98
+shininess 2000
+plane 0 0 -100 0 0 1
+
+# Left wall - tinted mirror
+diffuse 0.08 0.05 0.05
+specular 0.9 0.85 0.85
+shininess 1200
+plane -100 0 0 1 0 0
+
+# Right wall - tinted mirror
+diffuse 0.05 0.08 0.05
+specular 0.85 0.9 0.85
+plane 100 0 0 -1 0 0
+
+# Ceiling - semi-reflective
+ambient 0.05 0.05 0.05
+diffuse 0.4 0.4 0.4
+specular 0.3 0.3 0.3
+shininess 200
+plane 0 100 0 0 -1 0
+
+# --- Central Reflective Tower (Stacked Spheres) ---
+ambient 0 0 0
+diffuse 0.1 0.1 0.2
+specular 0.95 0.95 0.98
+shininess 1800
+
+sphere 0 0 0 3.5
+sphere 0 7 0 3.2
+sphere 0 13.5 0 2.9
+sphere 0 19.5 0 2.6
+sphere 0 25 0 2.3
+sphere 0 30 0 2.0
+sphere 0 34.5 0 1.7
+
+# --- Orbiting Spheres (Colored Metals) ---
+# Red metallic orbit
+ambient 0.02 0 0
+diffuse 0.3 0.1 0.1
+specular 0.9 0.7 0.7
+shininess 1000
+
+sphere 15 5 0 2.5
+sphere 10.6 5 10.6 2.5
+sphere 0 5 15 2.5
+sphere -10.6 5 10.6 2.5
+sphere -15 5 0 2.5
+sphere -10.6 5 -10.6 2.5
+sphere 0 5 -15 2.5
+sphere 10.6 5 -10.6 2.5
+
+# Gold metallic orbit (higher)
+ambient 0.03 0.02 0
+diffuse 0.4 0.3 0.1
+specular 0.95 0.85 0.6
+shininess 1200
+
+sphere 20 15 0 2.0
+sphere 14.1 15 14.1 2.0
+sphere 0 15 20 2.0
+sphere -14.1 15 14.1 2.0
+sphere -20 15 0 2.0
+sphere -14.1 15 -14.1 2.0
+sphere 0 15 -20 2.0
+sphere 14.1 15 -14.1 2.0
+
+# Blue-green metallic orbit
+ambient 0 0.02 0.03
+diffuse 0.1 0.3 0.4
+specular 0.7 0.9 0.95
+shininess 1100
+
+sphere 25 25 0 1.8
+sphere 17.7 25 17.7 1.8
+sphere 0 25 25 1.8
+sphere -17.7 25 17.7 1.8
+sphere -25 25 0 1.8
+sphere -17.7 25 -17.7 1.8
+sphere 0 25 -25 1.8
+sphere 17.7 25 -17.7 1.8
+
+# --- Floating Geometric Structures (tris) ---
+# Reflective pyramid 1 (Front-Right)
+ambient 0 0 0
+diffuse 0.15 0.1 0.2
+specular 0.85 0.8 0.9
+shininess 900
+
+triangle 30 -3 30 35 10 30 30 -3 35
+triangle 35 10 30 30 -3 35 35 10 35
+triangle 30 -3 30 35 10 30 32.5 -3 27.5
+triangle 35 10 30 32.5 -3 27.5 37.5 10 27.5
+triangle 30 -3 35 35 10 35 32.5 -3 37.5
+triangle 35 10 35 32.5 -3 37.5 37.5 10 37.5
+
+# Reflective pyramid 2 (Front-Left)
+ambient 0 0 0
+diffuse 0.2 0.15 0.1
+specular 0.9 0.85 0.8
+shininess 950
+
+triangle -30 -3 30 -35 10 30 -30 -3 35
+triangle -35 10 30 -30 -3 35 -35 10 35
+triangle -30 -3 30 -35 10 30 -32.5 -3 27.5
+triangle -35 10 30 -32.5 -3 27.5 -37.5 10 27.5
+triangle -30 -3 35 -35 10 35 -32.5 -3 37.5
+triangle -35 10 35 -32.5 -3 37.5 -37.5 10 37.5
+
+# Crystal formations (Back-Right)
+ambient 0.01 0 0.02
+diffuse 0.2 0.1 0.3
+specular 0.8 0.75 0.9
+shininess 1300
+
+triangle 35 -3 -30 40 8 -30 35 -3 -25
+triangle 40 8 -30 35 -3 -25 40 8 -25
+triangle 35 -3 -30 40 8 -30 37.5 -3 -32.5
+triangle 40 8 -30 37.5 -3 -32.5 42.5 8 -32.5
+triangle 37.5 -3 -27.5 42.5 8 -27.5 40 -3 -25
+triangle 42.5 8 -27.5 40 -3 -25 42.5 8 -25
+
+# Crystal formations (Back-Left)
+ambient 0 0.02 0.01
+diffuse 0.1 0.3 0.2
+specular 0.75 0.9 0.85
+shininess 1250
+
+triangle -35 -3 -30 -40 8 -30 -35 -3 -25
+triangle -40 8 -30 -35 -3 -25 -40 8 -25
+triangle -35 -3 -30 -40 8 -30 -37.5 -3 -32.5
+triangle -40 8 -30 -37.5 -3 -32.5 -42.5 8 -32.5
+triangle -37.5 -3 -27.5 -42.5 8 -27.5 -40 -3 -25
+triangle -42.5 8 -27.5 -40 -3 -25 -42.5 8 -25
+
+# --- Scattered Reflective Spheres ---
+# Small chrome spheres
+ambient 0 0 0
+diffuse 0.05 0.05 0.05
+specular 0.98 0.98 0.98
+shininess 2000
+
+sphere 40 2 20 1.5
+sphere -40 2 20 1.5
+sphere 40 2 -20 1.5
+sphere -40 2 -20 1.5
+sphere 50 3 10 1.3
+sphere -50 3 10 1.3
+sphere 50 3 -10 1.3
+sphere -50 3 -10 1.3
+sphere 45 8 0 1.2
+sphere -45 8 0 1.2
+sphere 30 12 40 1.4
+sphere -30 12 40 1.4
+sphere 30 12 -40 1.4
+sphere -30 12 -40 1.4
+
+# Colored glass-like spheres
+ambient 0.05 0 0
+diffuse 0.4 0.2 0.2
+specular 0.8 0.6 0.6
+shininess 800
+
+sphere 22 3 22 1.8
+sphere -22 3 22 1.8
+
+ambient 0 0.05 0
+diffuse 0.2 0.4 0.2
+specular 0.6 0.8 0.6
+shininess 800
+
+sphere 22 3 -22 1.8
+sphere -22 3 -22 1.8
+
+ambient 0 0 0.05
+diffuse 0.2 0.2 0.4
+specular 0.6 0.6 0.8
+shininess 800
+
+sphere 0 3 35 1.8
+sphere 0 3 -35 1.8
+
+# --- Mid-air Floating Geometric Shapes ---
+# Tetrahedron 1 (Front)
+ambient 0.01 0.01 0
+diffuse 0.25 0.25 0.15
+specular 0.85 0.85 0.75
+shininess 1000
+
+triangle 8 18 15 12 18 15 10 22 15
+triangle 8 18 15 12 18 15 10 18 18
+triangle 12 18 15 10 22 15 10 18 18
+triangle 8 18 15 10 22 15 10 18 18
+
+# Tetrahedron 2 (Left-Back)
+ambient 0.01 0 0.01
+diffuse 0.25 0.15 0.25
+specular 0.85 0.75 0.85
+shininess 1000
+
+triangle -18 20 -15 -22 20 -15 -20 24 -15
+triangle -18 20 -15 -22 20 -15 -20 20 -18
+triangle -22 20 -15 -20 24 -15 -20 20 -18
+triangle -18 20 -15 -20 24 -15 -20 20 -18
+
+# --- Additional triangle Clusters ---
+# Cluster 1
+ambient 0 0.01 0.01
+diffuse 0.15 0.3 0.3
+specular 0.75 0.9 0.9
+shininess 1100
+
+triangle 5 10 -8 8 12 -8 6.5 10 -5
+triangle 8 12 -8 6.5 10 -5 9.5 12 -5
+triangle 5 10 -8 6.5 10 -5 5.75 8 -6.5
+triangle 8 12 -8 9.5 12 -5 8.75 14 -6.5
+
+# Cluster 2
+ambient 0.01 0.01 0
+diffuse 0.3 0.3 0.15
+specular 0.9 0.9 0.75
+shininess 1050
+
+triangle -12 16 10 -15 18 10 -13.5 16 13
+triangle -15 18 10 -13.5 16 13 -16.5 18 13
+triangle -12 16 10 -13.5 16 13 -12.75 14 11.5
+triangle -15 18 10 -16.5 18 13 -15.75 20 11.5
+
+# --- Ground Decorations (Planes at different heights) ---
+# Raised platform 1
+ambient 0.02 0.01 0
+diffuse 0.35 0.25 0.15
+specular 0.6 0.5 0.4
+shininess 400
+
+triangle 55 -2.5 -50 65 -2.5 -50 55 -2.5 -40
+triangle 65 -2.5 -50 55 -2.5 -40 65 -2.5 -40
+triangle 55 -2.5 -40 65 -2.5 -40 55 -2.5 -30
+triangle 65 -2.5 -40 55 -2.5 -30 65 -2.5 -30
+
+# Raised platform 2
+ambient 0 0.02 0.01
+diffuse 0.15 0.35 0.25
+specular 0.4 0.6 0.5
+shininess 400
+
+triangle -65 -2.5 -50 -55 -2.5 -50 -65 -2.5 -40
+triangle -55 -2.5 -50 -65 -2.5 -40 -55 -2.5 -40
+triangle -65 -2.5 -40 -55 -2.5 -40 -65 -2.5 -30
+triangle -55 -2.5 -40 -65 -2.5 -30 -55 -2.5 -30
+
+# --- More Reflective Spheres (Creating Shadow Complexity) ---
+ambient 0.02 0.01 0.02
+diffuse 0.2 0.15 0.2
+specular 0.9 0.85 0.9
+shininess 1400
+
+sphere 12 7 8 1.1
+sphere -12 7 8 1.1
+sphere 8 7 -12 1.1
+sphere -8 7 -12 1.1
+sphere 16 11 -5 1.0
+sphere -16 11 -5 1.0
+sphere 5 11 18 1.0
+sphere -5 11 18 1.0
+
+# --- Final Layer: Tiny Highly Reflective Spheres ---
+ambient 0 0 0
+diffuse 0.03 0.03 0.03
+specular 0.99 0.99 0.99
+shininess 3000
+
+sphere 25 4 12 0.8
+sphere -25 4 12 0.8
+sphere 25 4 -12 0.8
+sphere -25 4 -12 0.8
+sphere 35 6 0 0.7
+sphere -35 6 0 0.7
+sphere 0 6 30 0.7
+sphere 0 6 -30 0.7
+sphere 18 9 18 0.6
+sphere -18 9 18 0.6
+sphere 18 9 -18 0.6
+sphere -18 9 -18 0.6
+sphere 12 14 0 0.5
+sphere -12 14 0 0.5
+sphere 0 14 12 0.5
+sphere 0 14 -12 0.5
+
+# --- Decorative triangle Arrays ---
+# Array 1 - Scattered reflective shards
+ambient 0 0.01 0.02
+diffuse 0.1 0.2 0.3
+specular 0.8 0.85 0.9
+shininess 1150
+
+triangle 28 5 -10 30 7 -10 29 5 -8
+triangle 30 7 -10 29 5 -8 31 7 -8
+triangle -28 5 -10 -30 7 -10 -29 5 -8
+triangle -30 7 -10 -29 5 -8 -31 7 -8
+
+triangle 10 13 25 12 15 25 11 13 27
+triangle 12 15 25 11 13 27 13 15 27
+triangle -10 13 25 -12 15 25 -11 13 27
+triangle -12 15 25 -11 13 27 -13 15 27
+
+# Array 2 - More complexity
+ambient 0.02 0.01 0
+diffuse 0.3 0.2 0.1
+specular 0.9 0.8 0.7
+shininess 1050
+
+triangle 42 10 8 44 12 8 43 10 10
+triangle 44 12 8 43 10 10 45 12 10
+triangle -42 10 8 -44 12 8 -43 10 10
+triangle -44 12 8 -43 10 10 -45 12 10
+
+# --- Additional Small Spheres for Maximum Complexity ---
+ambient 0.01 0.02 0.01
+diffuse 0.15 0.25 0.15
+specular 0.85 0.9 0.85
+shininess 1300
+
+sphere 6 17 6 0.9
+sphere -6 17 6 0.9
+sphere 6 17 -6 0.9
+sphere -6 17 -6 0.9
+sphere 14 20 0 0.8
+sphere -14 20 0 0.8
+sphere 0 20 14 0.8
+sphere 0 20 -14 0.8
+sphere 10 23 10 0.7
+sphere -10 23 10 0.7
+sphere 10 23 -10 0.7
+sphere -10 23 -10 0.7
+
+# --- More triangle Complexity ---
+ambient 0.02 0 0.02
+diffuse 0.3 0.15 0.3
+specular 0.9 0.8 0.9
+shininess 1200
+
+triangle 3 8 -3 5 10 -3 4 8 -1
+triangle 5 10 -3 4 8 -1 6 10 -1
+triangle -3 8 -3 -5 10 -3 -4 8 -1
+triangle -5 10 -3 -4 8 -1 -6 10 -1
+
+triangle 15 6 20 17 8 20 16 6 22
+triangle 17 8 20 16 6 22 18 8 22
+triangle -15 6 20 -17 8 20 -16 6 22
+triangle -17 8 20 -16 6 22 -18 8 22

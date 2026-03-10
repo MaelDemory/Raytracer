@@ -1,0 +1,170 @@
+size 7680 4320
+output scene3.png
+
+# Camera looking slightly down at the center
+camera 0 25 50 0 5 0 0 1 0 50
+
+ambient 0.1 0.1 0.1
+maxdepth 8
+
+# --- Lights ---
+# Central bright light above
+point 0 40 0 0.8 0.8 0.8
+
+# Colored corner lights for interesting shadows/reflections
+point 30 10 30 0.6 0.0 0.0
+point -30 10 30 0.0 0.6 0.0
+point 30 10 -30 0.0 0.0 0.6
+point -30 10 -30 0.6 0.6 0.0
+
+# --- Room (Mirror Box) ---
+# Floor (Checkered reflection handled by geometry? No, just uniform mirror)
+diffuse 0.2 0.2 0.2
+specular 0.8 0.8 0.8
+shininess 1000
+plane 0 -2 0 0 1 0
+
+# Ceiling (Matte white to bounce light softly)
+diffuse 0.8 0.8 0.8
+specular 0.0 0.0 0.0
+shininess 0
+plane 0 60 0 0 -1 0
+
+# Back Wall (Mirror)
+diffuse 0.1 0.1 0.1
+specular 0.9 0.9 0.9
+shininess 1000
+plane 0 0 -60 0 0 1
+
+# --- Pyramid of Spheres ---
+# Material: Gold/Metallic
+diffuse 0.4 0.3 0.1
+specular 0.8 0.7 0.2
+shininess 100
+
+# Layer 1 (Base 5x5) - y=0
+sphere -8 0 -8 2
+sphere -4 0 -8 2
+sphere 0 0 -8 2
+sphere 4 0 -8 2
+sphere 8 0 -8 2
+
+sphere -8 0 -4 2
+sphere -4 0 -4 2
+sphere 0 0 -4 2
+sphere 4 0 -4 2
+sphere 8 0 -4 2
+
+sphere -8 0 0 2
+sphere -4 0 0 2
+sphere 0 0 0 2
+sphere 4 0 0 2
+sphere 8 0 0 2
+
+sphere -8 0 4 2
+sphere -4 0 4 2
+sphere 0 0 4 2
+sphere 4 0 4 2
+sphere 8 0 4 2
+
+sphere -8 0 8 2
+sphere -4 0 8 2
+sphere 0 0 8 2
+sphere 4 0 8 2
+sphere 8 0 8 2
+
+# Layer 2 (4x4) - y=3
+# Material: Chrome/Silver
+diffuse 0.2 0.2 0.2
+specular 0.9 0.9 0.9
+shininess 200
+
+sphere -6 3 -6 2
+sphere -2 3 -6 2
+sphere 2 3 -6 2
+sphere 6 3 -6 2
+
+sphere -6 3 -2 2
+sphere -2 3 -2 2
+sphere 2 3 -2 2
+sphere 6 3 -2 2
+
+sphere -6 3 2 2
+sphere -2 3 2 2
+sphere 2 3 2 2
+sphere 6 3 2 2
+
+sphere -6 3 6 2
+sphere -2 3 6 2
+sphere 2 3 6 2
+sphere 6 3 6 2
+
+# Layer 3 (3x3) - y=6
+# Material: Ruby/Red Glass-like
+diffuse 0.6 0.0 0.0
+specular 0.8 0.8 0.8
+shininess 300
+
+sphere -4 6 -4 2
+sphere 0 6 -4 2
+sphere 4 6 -4 2
+
+sphere -4 6 0 2
+sphere 0 6 0 2
+sphere 4 6 0 2
+
+sphere -4 6 4 2
+sphere 0 6 4 2
+sphere 4 6 4 2
+
+# Layer 4 (2x2) - y=9
+# Material: Emerald/Green
+diffuse 0.0 0.6 0.0
+specular 0.8 0.8 0.8
+shininess 300
+
+sphere -2 9 -2 2
+sphere 2 9 -2 2
+sphere -2 9 2 2
+sphere 2 9 2 2
+
+# Layer 5 (Top) - y=12
+# Material: Diamond/Bright
+diffuse 0.1 0.1 0.1
+specular 1.0 1.0 1.0
+shininess 500
+sphere 0 12 0 2
+
+# --- Floating Ring of Triangles ---
+# A ring of triangles floating around the pyramid
+maxverts 12
+vertex 0 15 20
+vertex 10 20 17
+vertex 17 15 10
+vertex 20 20 0
+vertex 17 15 -10
+vertex 10 20 -17
+vertex 0 15 -20
+vertex -10 20 -17
+vertex -17 15 -10
+vertex -20 20 0
+vertex -17 15 10
+vertex -10 20 17
+
+diffuse 0.1 0.1 0.8
+specular 0.5 0.5 0.5
+shininess 50
+
+# Connecting vertices to form a jagged ring
+tri 0 1 2
+tri 1 2 3
+tri 2 3 4
+tri 3 4 5
+tri 4 5 6
+tri 5 6 7
+tri 6 7 8
+tri 7 8 9
+tri 8 9 10
+tri 9 10 11
+tri 10 11 0
+tri 11 0 1

@@ -1,0 +1,134 @@
+size 7680 4320
+maxdepth 10
+output scene7.png
+
+# Camera setup
+camera 0 8 25 0 2 0 0 1 0 60
+
+# Ambient light
+ambient 0.05 0.05 0.05
+
+# --- LIGHTS ---
+# Central bright white light
+point 0 15 0 0.8 0.8 0.8
+
+# Colored lights for complex shadows
+# Red from left
+point -15 5 10 0.8 0.1 0.1
+# Blue from right
+point 15 5 10 0.1 0.1 0.8
+# Green from back
+point 0 10 -10 0.1 0.8 0.1
+# Yellow from top
+point 0 20 0 0.4 0.4 0.1
+
+# Directional fill
+directional -1 -1 -1 0.1 0.1 0.1
+
+# --- ROOM (PLANES) ---
+# Floor - Checkerboard-like reflection (simulated as uniform mirror here)
+diffuse 0.1 0.1 0.1
+specular 0.8 0.8 0.8
+shininess 1000
+plane 0 -2 0 0 1 0
+
+# Ceiling - Mirror
+diffuse 0.1 0.1 0.1
+specular 0.6 0.6 0.6
+shininess 500
+plane 0 25 0 0 -1 0
+
+# Back wall - Matte Grey
+diffuse 0.5 0.5 0.5
+specular 0.0 0.0 0.0
+shininess 1
+plane 0 0 -20 0 0 1
+
+# Left wall - Red Matte
+diffuse 0.6 0.1 0.1
+specular 0.1 0.1 0.1
+shininess 10
+plane -25 0 0 1 0 0
+
+# Right wall - Blue Matte
+diffuse 0.1 0.1 0.6
+specular 0.1 0.1 0.1
+shininess 10
+plane 25 0 0 -1 0 0
+
+# --- CENTRAL OBJECTS ---
+
+# Big Central Chrome Sphere
+diffuse 0.05 0.05 0.05
+specular 0.95 0.95 0.95
+shininess 1000
+sphere 0 3 0 5
+
+# Floating Gold Sphere
+diffuse 0.8 0.6 0.2
+specular 0.9 0.7 0.2
+shininess 200
+sphere 6 6 6 2
+
+# Floating Silver Sphere
+diffuse 0.7 0.7 0.7
+specular 0.9 0.9 0.9
+shininess 200
+sphere -6 6 6 2
+
+# Floating Copper Sphere
+diffuse 0.7 0.3 0.1
+specular 0.8 0.4 0.2
+shininess 100
+sphere 6 6 -6 2
+
+# Floating Glass-like Sphere
+diffuse 0.0 0.1 0.1
+specular 0.9 0.9 0.9
+shininess 1000
+sphere -6 6 -6 2
+
+# --- GEOMETRIC STRUCTURES ---
+
+# Pyramid 1 (Reflective Green)
+diffuse 0.1 0.6 0.1
+specular 0.5 0.5 0.5
+shininess 50
+triangle -12 -2 10  -8 -2 10  -10 4 8
+triangle -8 -2 10   -10 -2 6  -10 4 8
+triangle -10 -2 6   -12 -2 6  -10 4 8
+triangle -12 -2 6   -12 -2 10 -10 4 8
+
+# Pyramid 2 (Reflective Purple)
+diffuse 0.6 0.1 0.6
+specular 0.5 0.5 0.5
+shininess 50
+triangle 12 -2 10  8 -2 10  10 4 8
+triangle 8 -2 10   10 -2 6  10 4 8
+triangle 10 -2 6   12 -2 6  10 4 8
+triangle 12 -2 6   12 -2 10 10 4 8
+
+# --- SPHERE GRID ON FLOOR ---
+# A grid of small spheres to show complex shadows and reflections
+diffuse 0.9 0.9 0.9
+specular 0.8 0.8 0.8
+shininess 100
+
+sphere -4 -1 12 1
+sphere -2 -1 12 1
+sphere 0 -1 12 1
+sphere 2 -1 12 1
+sphere 4 -1 12 1
+
+sphere -4 -1 15 1
+sphere -2 -1 15 1
+sphere 0 -1 15 1
+sphere 2 -1 15 1
+sphere 4 -1 15 1
+
+# --- FLOATING TRIANGLES ---
+diffuse 0.2 0.2 0.8
+specular 0.5 0.5 0.5
+shininess 20
+triangle -2 10 5  2 10 5  0 13 5
+triangle -2 11 8  2 11 8  0 14 8

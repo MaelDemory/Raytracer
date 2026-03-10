@@ -1,0 +1,185 @@
+size 7680 4320
+output scene6.png
+
+# Camera: wide shot looking at origin from above-right
+camera 40 35 60 0 5 0 0 1 0 55
+
+ambient 0.06 0.06 0.06
+maxdepth 9
+
+# --- Lights ---
+# Overhead white key light
+point 0 60 0 0.9 0.9 0.9
+# Corner colored lights for rich shadow hues
+point 45 20 45 0.7 0.1 0.1
+point -45 20 45 0.1 0.7 0.1
+point 45 20 -45 0.1 0.1 0.7
+point -45 20 -45 0.7 0.7 0.1
+# Rim light to outline silhouettes
+directional -1 -0.2 -0.5 0.3 0.3 0.35
+
+# --- Mirror box base ---
+# Floor: high gloss mirror
+diffuse 0.15 0.15 0.15
+specular 0.9 0.9 0.9
+shininess 1200
+plane 0 -2 0 0 1 0
+
+# Back wall: mirror
+plane 0 0 -80 0 0 1
+
+# Left wall: semi-gloss
+specular 0.6 0.6 0.6
+shininess 400
+plane -80 0 0 1 0 0
+
+# Right wall: matte to vary reflections
+diffuse 0.4 0.4 0.4
+specular 0.05 0.05 0.05
+shininess 10
+plane 80 0 0 -1 0 0
+
+# Ceiling: soft white
+ambient 0.1 0.1 0.1
+diffuse 0.8 0.8 0.8
+specular 0 0 0
+shininess 0
+plane 0 70 0 0 -1 0
+
+# --- Central reflective tower (stack of spheres) ---
+ambient 0 0 0
+diffuse 0.25 0.25 0.3
+specular 0.9 0.9 1.0
+shininess 800
+sphere 0 0 0 4
+sphere 0 5 0 3.5
+sphere 0 9 0 3.0
+sphere 0 12 0 2.5
+sphere 0 14.5 0 2.2
+sphere 0 16.5 0 2.0
+sphere 0 18 0 1.8
+
+# --- Grid of chrome spheres on the floor ---
+diffuse 0.15 0.15 0.15
+specular 0.95 0.95 0.95
+shininess 900
+sphere -30 0 -30 2
+sphere -20 0 -30 2
+sphere -10 0 -30 2
+sphere 0 0 -30 2
+sphere 10 0 -30 2
+sphere 20 0 -30 2
+sphere 30 0 -30 2
+
+sphere -30 0 -20 2
+sphere -20 0 -20 2
+sphere -10 0 -20 2
+sphere 0 0 -20 2
+sphere 10 0 -20 2
+sphere 20 0 -20 2
+sphere 30 0 -20 2
+
+sphere -30 0 -10 2
+sphere -20 0 -10 2
+sphere -10 0 -10 2
+sphere 0 0 -10 2
+sphere 10 0 -10 2
+sphere 20 0 -10 2
+sphere 30 0 -10 2
+
+sphere -30 0 0 2
+sphere -20 0 0 2
+sphere -10 0 0 2
+sphere 0 0 0 2
+sphere 10 0 0 2
+sphere 20 0 0 2
+sphere 30 0 0 2
+
+sphere -30 0 10 2
+sphere -20 0 10 2
+sphere -10 0 10 2
+sphere 0 0 10 2
+sphere 10 0 10 2
+sphere 20 0 10 2
+sphere 30 0 10 2
+
+sphere -30 0 20 2
+sphere -20 0 20 2
+sphere -10 0 20 2
+sphere 0 0 20 2
+sphere 10 0 20 2
+sphere 20 0 20 2
+sphere 30 0 20 2
+
+sphere -30 0 30 2
+sphere -20 0 30 2
+sphere -10 0 30 2
+sphere 0 0 30 2
+sphere 10 0 30 2
+sphere 20 0 30 2
+sphere 30 0 30 2
+
+# --- Floating glass orbs layer ---
+diffuse 0.05 0.05 0.1
+specular 0.9 0.9 0.95
+shininess 600
+sphere -25 8 -25 1.5
+sphere -15 9 -15 1.5
+sphere -5 10 -5 1.5
+sphere 5 10 5 1.5
+sphere 15 9 15 1.5
+sphere 25 8 25 1.5
+sphere -25 9 25 1.5
+sphere 25 9 -25 1.5
+
+# --- Triangle canopy above the tower ---
+maxverts 12
+vertex -6 22 -6
+vertex 6 22 -6
+vertex 6 22 6
+vertex -6 22 6
+vertex -8 26 -8
+vertex 8 26 -8
+vertex 8 26 8
+vertex -8 26 8
+vertex 0 30 0
+vertex 0 32 -4
+vertex 4 32 0
+vertex -4 32 0
+
+diffuse 0.2 0.2 0.5
+specular 0.6 0.6 0.8
+shininess 300
+tri 0 1 4
+tri 1 5 4
+tri 1 2 5
+tri 2 6 5
+tri 2 3 6
+tri 3 7 6
+tri 3 0 7
+tri 0 4 7
+tri 4 8 5
+tri 5 8 6
+tri 6 8 7
+tri 7 8 4
+tri 8 9 10
+tri 8 10 11
+tri 8 11 9
+
+# --- Reflective arch made of planes ---
+diffuse 0.2 0.2 0.2
+specular 0.8 0.8 0.8
+shininess 500
+plane 0 0 50 0 0 -1
+plane 0 25 30 0 -1 0
+plane 0 25 -30 0 -1 0
+
+# --- Distant star spheres for highlights ---
+diffuse 1 1 1
+specular 1 1 1
+shininess 0
+sphere -90 50 -120 1
+sphere 90 55 -130 1
+sphere 0 65 -140 1
+sphere -70 60 -150 1
+sphere 70 62 -160 1
