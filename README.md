@@ -2,6 +2,10 @@
 
 Moteur de rendu par lancer de rayons développé en Java. Algorithme récursif avec accélération BVH, ombres et réflexions. Le rendu est **automatiquement** délégué au GPU via **Vulkan compute** s'il est disponible, sinon un rendu **CPU parallèle** est utilisé.
 
+Le projet initial a été créé dans un cadre universitaire. Il s'agit ici du même projet qui a été retravaillé dans un cadre personnel.
+
+Le projet initial est disponible [ici](https://github.com/MaelDemory/FISA-TI-2028-POO-DEMORY-Mael)
+
 ## Fonctionnalités
 
 *   **Formes géométriques** : Sphères, Triangles, Plans.
