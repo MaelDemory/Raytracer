@@ -130,6 +130,29 @@
     <!-- Ajout: configuration pour produire un jar exécutable -->
     <build>
         <plugins>
+            <!-- Compile le pont natif Metal (macOS). Le script sort en succès
+                 même sans toolchain : le rendu retombe alors sur Vulkan ou le CPU. -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>build-metal-bridge</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>sh</executable>
+                            <arguments>
+                                <argument>${project.basedir}/src/main/native/build.sh</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -140,6 +163,10 @@
                             <!-- La classe Main est dans le package par défaut : on met "Main" -->
                             <mainClass>Main</mainClass>
                         </manifest>
+                        <manifestEntries>
+                            <!-- Le backend Metal passe par la Foreign Function & Memory API. -->
+                            <Enable-Native-Access>ALL-UNNAMED</Enable-Native-Access>
+                        </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>

@@ -1,6 +1,6 @@
 # Ray Tracer
 
-Moteur de rendu par lancer de rayons développé en Java. Algorithme récursif avec accélération BVH, ombres et réflexions. Le rendu est **automatiquement** délégué au GPU via **Vulkan compute** s'il est disponible, sinon un rendu **CPU parallèle** est utilisé.
+Moteur de rendu par lancer de rayons développé en Java. Algorithme récursif avec accélération BVH, ombres et réflexions. L'API graphique est **détectée au lancement** : **Metal** sur macOS, **Vulkan compute** partout ailleurs, et un rendu **CPU parallèle** si aucun GPU n'est exploitable.
 
 Le projet initial a été créé dans un cadre universitaire. Il s'agit ici du même projet qui a été retravaillé dans un cadre personnel.
 
@@ -12,9 +12,10 @@ Le projet initial est disponible [ici](https://github.com/MaelDemory/FISA-TI-202
 *   **Éclairage** : Lumières ponctuelles et directionnelles.
 *   **Matériaux** : Modèle de réflexion Phong (ambiante, diffuse, spéculaire, brillance).
 *   **Accélération** : Structure BVH (Bounding Volume Hierarchy).
-*   **Rendu GPU** : Vulkan compute via LWJGL avec compilation GLSL → SPIR-V à l'exécution.
-*   **Rendu CPU** : Fallback multi-threadé automatique si Vulkan n'est pas disponible.
-*   **Détection automatique** : Aucune configuration manuelle du mode de rendu requise.
+*   **Rendu GPU Metal** : kernel Metal Shading Language embarquant le BVH, via la Foreign Function & Memory API (macOS).
+*   **Rendu GPU Vulkan** : Vulkan compute via LWJGL avec compilation GLSL → SPIR-V à l'exécution.
+*   **Rendu CPU** : Fallback multi-threadé automatique si aucun GPU n'est exploitable.
+*   **Détection automatique** : l'API est choisie au lancement, et un backend qui refuse la scène passe la main au suivant.
 *   **Docker** : Conteneurisation pour exécuter le raytracer sans installer Java ni Maven.
 
 ## Prérequis
@@ -23,7 +24,10 @@ Le projet initial est disponible [ici](https://github.com/MaelDemory/FISA-TI-202
 
 *   Java 24+
 *   Maven
-*   Pilotes Vulkan (optionnel — le fallback CPU est automatique)
+*   Pour Metal (macOS) : Command Line Tools (`xcode-select --install`). Xcode complet n'est pas
+    nécessaire, le shader est compilé à l'exécution.
+*   Pour Vulkan : pilotes Vulkan / MoltenVK
+*   Les deux sont optionnels — le fallback CPU est automatique
 
 ### Exécution via Docker
 
@@ -70,6 +74,37 @@ docker run --rm -v "$(pwd)/output:/app/output" -v "$(pwd)/ma_scene.scene:/app/ma
 L'image rendue sera déposée dans le dossier `output/` sur votre machine.
 
 > **Note** : Dans un conteneur Docker standard, Vulkan n'est pas disponible. Le raytracer utilise automatiquement le rendu CPU parallèle.
+
+## Choix du backend
+
+Les backends sont sondés dans l'ordre **Metal → Vulkan → CPU**. L'API native de la plateforme
+passe avant l'API portable : sur macOS, Metal parle directement au GPU là où Vulkan traverse une
+couche de traduction. Un backend indisponible, ou qui refuse la scène parce qu'elle sort de son
+domaine, laisse la place au suivant sans interrompre le rendu.
+
+La propriété `raytracer.backend` force un chemin précis, utile pour comparer :
+
+```bash
+java -Draytracer.backend=metal  -cp "target/classes:target/dependency/*" Main scene.scene
+java -Draytracer.backend=vulkan -cp "target/classes:target/dependency/*" Main scene.scene
+java -Draytracer.backend=cpu    -cp "target/classes:target/dependency/*" Main scene.scene
+```
+
+### Performances mesurées
+
+Apple M5 (10 cœurs), macOS 27.0, OpenJDK 26, scènes ramenées à 1920 × 1080. Vulkan n'était pas
+installé sur la machine de mesure ; la colonne CPU correspond au rendu parallèle par lignes.
+
+| Scène | Primitives | CPU parallèle | Metal | Gain |
+|---|---|---|---|---|
+| scene5 | 266 | 408 ms | **205 ms** | ×2,0 |
+| scene4 | 100 001 | 2 476 ms | **551 ms** | ×4,5 |
+| scene1 | 92 | 12 800 ms | **918 ms** | ×13,9 |
+
+Le kernel Metal reprend les epsilons, le modèle de Phong et la saturation par niveau de réflexion
+du moteur CPU. L'écart résiduel tient à la simple précision du GPU : 0,02 % des pixels sur scene4,
+0,44 % sur scene5, 4,3 % sur scene1 — cette dernière cumulant douze rebonds — pour un écart moyen
+inférieur à 0,5 sur 255 dans les trois cas.
 
 ## Tests
 
