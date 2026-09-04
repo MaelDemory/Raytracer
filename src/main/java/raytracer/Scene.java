@@ -271,6 +271,22 @@ public class Scene {
     }
 
     /**
+     * Retourne la racine du BVH construit sur les formes bornées.
+     * @return BvhNode racine, ou null si aucune forme bornée
+     */
+    BvhNode bvhRoot() {
+        return bvhRoot;
+    }
+
+    /**
+     * Retourne les formes sans boîte englobante, testées hors du BVH.
+     * @return List<Shape> des formes non bornées
+     */
+    List<Shape> unboundedShapes() {
+        return unboundedShapes;
+    }
+
+    /**
      * Reconstruit la structure d'accélération BVH à partir des formes de la scène.
      */
     private void rebuildAccelerationStructure() {

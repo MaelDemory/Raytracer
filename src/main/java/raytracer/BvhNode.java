@@ -218,4 +218,36 @@ public final class BvhNode {
         out.set(selfIndex, new FlatNode(node.bounds, leftIndex, rightIndex, shapeType, shapeIndex));
         return selfIndex;
     }
+
+    /**
+     * Retourne la boîte englobante du noeud.
+     * @return BoundingBox du noeud, ou null pour un noeud sans bornes
+     */
+    BoundingBox bounds() {
+        return bounds;
+    }
+
+    /**
+     * Retourne l'enfant gauche du noeud.
+     * @return BvhNode gauche, ou null pour une feuille
+     */
+    BvhNode left() {
+        return left;
+    }
+
+    /**
+     * Retourne l'enfant droit du noeud.
+     * @return BvhNode droit, ou null pour une feuille
+     */
+    BvhNode right() {
+        return right;
+    }
+
+    /**
+     * Retourne la forme portée par le noeud.
+     * @return Shape si le noeud est une feuille, null sinon
+     */
+    Shape shape() {
+        return shape;
+    }
 }

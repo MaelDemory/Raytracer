@@ -55,28 +55,29 @@ public class ImageRenderer {
     }
 
     /**
-     * Rend la scène en choisissant automatiquement la meilleure méthode disponible.
-     * Vulkan est préféré s'il est disponible, sinon le rendu CPU parallèle est utilisé.
+     * Rend la scène en sélectionnant l'API graphique au lancement.
+     *
+     * <p>Les backends sont sondés dans l'ordre de préférence : l'API native de la
+     * plateforme d'abord, puis l'API portable, puis le CPU. Un backend qui se
+     * déclare indisponible, ou qui refuse la scène parce qu'elle sort de son
+     * domaine, fait passer au suivant sans interrompre le rendu.</p>
+     *
+     * <p>La propriété système {@code raytracer.backend} force un chemin précis
+     * ({@code metal}, {@code vulkan} ou {@code cpu}).</p>
      *
      * @param scene Scène à rendre
      * @return rapport contenant la durée d'exécution et le fichier généré
      * @throws IOException si le rendu échoue
      */
     public RenderReport render(Scene scene) throws IOException {
-        BufferedImage image;
-        String suffix;
         long start = System.nanoTime();
+        BufferedImage image = renderOnGpu(scene);
 
-        if (imaging.vulkan.VulkanRayTracer.isAvailable()) {
-            System.out.println("=== Rendu GPU (Vulkan compute) ===");
-            image = renderOnVulkan(scene);
-            suffix = "";
-        } else {
-            System.out.println("=== Vulkan non disponible, rendu CPU parallèle ===");
+        if (image == null) {
+            System.out.println("=== Rendu CPU parallèle ===");
             RayTracer rayTracer = new RayTracer(scene);
             image = new BufferedImage(scene.getWidth(), scene.getHeight(), BufferedImage.TYPE_INT_RGB);
             renderInParallel(scene, rayTracer, image);
-            suffix = "";
         }
 
         long elapsed = System.nanoTime() - start;
@@ -85,11 +86,30 @@ public class ImageRenderer {
         return new RenderReport(image, TimeUnit.NANOSECONDS.toMillis(elapsed), outputFile);
     }
 
-    private BufferedImage renderOnVulkan(Scene scene) {
-        System.out.println("Initialisation Vulkan...");
-        var vkTracer = new imaging.vulkan.VulkanRayTracer(scene);
-        System.out.println("Rendu Vulkan (BVH) en cours...");
-        return vkTracer.render();
+    /**
+     * Essaie chaque backend accéléré dans l'ordre de préférence.
+     * @param scene Scène à rendre
+     * @return Image rendue, ou null si aucun backend n'a abouti
+     */
+    private BufferedImage renderOnGpu(Scene scene) {
+        for (RenderBackend backend : RenderBackends.preferred()) {
+            if (!backend.isAvailable()) {
+                System.out.println("Backend " + backend.name() + " écarté: " + backend.describe());
+                continue;
+            }
+
+            System.out.println("=== Rendu GPU (" + backend.name() + ") ===");
+            System.out.println(backend.describe());
+            try {
+                return backend.render(scene);
+            } catch (RuntimeException | LinkageError e) {
+                // Scène hors domaine ou échec du périphérique : on essaie le
+                // backend suivant plutôt que d'abandonner le rendu.
+                System.out.println("Backend " + backend.name() + " a échoué (" + e.getMessage()
+                        + "), passage au suivant.");
+            }
+        }
+        return null;
     }
 
     private void renderInParallel(Scene scene, RayTracer rayTracer, BufferedImage image) throws IOException {
